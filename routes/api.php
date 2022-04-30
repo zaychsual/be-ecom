@@ -9,7 +9,7 @@ use App\Http\Controllers\Api\Admin\RegisterController;
 //     return $request->user();
 // });
 Route::post('/admin/register',[RegisterController::class, 'register'])->name('admin.register');
-Route::post('/aadmin/login',[LoginController::class, 'login'])->name('admin.login');
+Route::post('/admin/login',[LoginController::class, 'login'])->name('admin.login');
 Route::group( ['prefix' => 'admin','middleware' => ['auth:api_admin','scopes:admin'] ],function(){
    // authenticated staff routes here
     // Route::get('dashboard',[LoginController::class, 'adminDashboard']);
