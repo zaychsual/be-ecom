@@ -17,4 +17,24 @@ class Order extends Model
         'price',
         'deleted_at',
     ];
+
+    /**
+     * reviews
+     *
+     * @return void
+     */
+    public function reviews()
+    {
+        return $this->hasMany(\App\Models\Review::class, 'review_id');
+    }
+
+    /**
+     * product
+     *
+     * @return void
+     */
+    public function product()
+    {
+        return $this->belongsTo(\App\Models\Product::class, 'product_id');
+    }
 }

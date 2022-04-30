@@ -2,15 +2,15 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\Admin\LoginController;
-use App\Http\Controllers\Api\Admin\RegisterController;
+use App\Http\Controllers\Api\LoginController;
+use App\Http\Controllers\Api\RegisterController;
 
 // Route::middleware('auth:api_admin')->get('/user', function(Request $request) {
 //     return $request->user();
 // });
-Route::post('/admin/register',[RegisterController::class, 'register'])->name('admin.register');
-Route::post('/aadmin/login',[LoginController::class, 'login'])->name('admin.login');
-Route::group( ['prefix' => 'admin','middleware' => ['auth:api_admin','scopes:admin'] ],function(){
+Route::post('/register',[RegisterController::class, 'register'])->name('register');
+Route::post('/login',[LoginController::class, 'login'])->name('login');
+Route::group( ['middleware' => ['auth:api_cust','scopes:cust'] ],function(){
    // authenticated staff routes here
     // Route::get('dashboard',[LoginController::class, 'adminDashboard']);
 });

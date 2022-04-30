@@ -18,4 +18,15 @@ class Slider extends Model
     protected $fillable = [
         'image', 'link', 'created_by', 'updated_by', 'deleted_at'
     ];
+
+    /**
+     * getImageAttribute
+     *
+     * @param  mixed $image
+     * @return void
+     */
+    public function getImageAttribute($image)
+    {
+        return asset('storage/sliders/' . $image);
+    }
 }

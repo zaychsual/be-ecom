@@ -40,6 +40,24 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+        'api_admin' => [
+            'driver' => 'passport',
+            'provider' => 'users',
+            'token' => false,
+        ],
+        'cust' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+        'api_cust' => [
+            'driver' => 'passport',
+            'provider' => 'cust',
+            'token' => false,
+        ],
     ],
 
     /*
@@ -63,6 +81,10 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+        ],
+        'cust' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Customer::class,
         ],
 
         // 'users' => [

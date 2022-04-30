@@ -39,4 +39,25 @@ class Product extends Model
     {
         return $this->belongsTo(\App\Models\Category::class, 'category_id');
     }
+
+    /**
+     * getImageAttribute
+     *
+     * @param  mixed $image
+     * @return void
+     */
+    public function getImageAttribute($image)
+    {
+        return asset('storage/products/' . $image);
+    }
+
+    /**
+     * getReviewsAvgRatingAttribute
+     *
+     * @param  mixed $value
+     * @return void
+     */
+    public function getReviewsAvgRatingAttribute($value) {
+        return $value ? substr($value, 0, 3) : 0;
+    }
 }
