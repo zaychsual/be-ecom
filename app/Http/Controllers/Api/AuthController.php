@@ -1,17 +1,49 @@
 <?php
 
-namespace App\Http\Controllers\Api\Admin;
+namespace App\Http\Controllers\Api;
 
 use Auth;
-use App\Models\User;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\Client as OClient;
 use Illuminate\Support\Facades\Validator;
 
-class LoginController extends Controller
+class AuthController extends Controller
 {
+    /**
+     * register
+     *
+     * @param  mixed $request
+     * @return void
+     */
+    public function register(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name'      => 'required',
+            'email'     => 'required|email|unique:customers',
+            'password'  => 'required|min:8|confirmed'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        $user = Customer::create([
+            'name'      => $request->name,
+            'email'     => $request->email,
+            'password'  => Hash::make($request->password)
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Register Success!',
+            'data' => $user,
+            'token' => $user->createToken('authToken')->accessToken
+        ]);
+    }
+
     /**
      * login
      *
@@ -29,19 +61,20 @@ class LoginController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $user = User::where('email', $request->email)->first();
+        $user = Customer::where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
                 'success' => false,
                 'message' => 'Login Failed!',
-            ]);
+            ], 401);
         }
 
         return response()->json([
             'success' => true,
+            'message' => 'Login Success',
             'user'    => $user,
-            'token'   => $user->createToken('admin')->accessToken
+            'token'   => $user->createToken('authToken')->accessToken
         ]);
     }
 

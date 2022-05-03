@@ -2,18 +2,19 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\Admin\LoginController;
-use App\Http\Controllers\Api\Admin\RegisterController;
+use App\Http\Controllers\Api\Admin\AuthController;
+use App\Http\Controllers\Api\Admin\ProductController;
+use App\Http\Controllers\Api\Admin\CategoryController;
+use App\Http\Controllers\Api\Admin\DashboardController;
 
-// Route::middleware('auth:api_admin')->get('/user', function(Request $request) {
-//     return $request->user();
-// });
-Route::post('/admin/register',[RegisterController::class, 'register'])->name('admin.register');
-Route::post('/admin/login',[LoginController::class, 'login'])->name('admin.login');
-Route::group( ['prefix' => 'admin','middleware' => ['auth:api_admin','scopes:admin'] ],function(){
-   // authenticated staff routes here
-    // Route::get('dashboard',[LoginController::class, 'adminDashboard']);
+Route::post('/admin/register',[AuthController::class, 'register'])->name('admin.register');
+Route::post('/admin/login',[AuthController::class, 'login'])->name('admin.login');
+
+Route::group( ['prefix' => 'admin','middleware' => ['auth:api_admin'], 'as' => 'admin' ],function(){
+    Route::post('/logout', [AuthController::class, 'logout'])->name('admin.logout');
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+
+    Route::resource('/categories', CategoryController::class);
+    Route::resource('/products', ProductController::class);
 });
-// Route::post('/register', [RegisterController::class, 'register']);
-// Route::post('/login', [LoginController::class, 'login']);
-// Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth:api_admin');

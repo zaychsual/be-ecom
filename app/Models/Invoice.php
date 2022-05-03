@@ -35,6 +35,11 @@ class Invoice extends Model
         40 => 'failed',
     ];
 
+    public const pending = 10;
+    public const success = 20;
+    public const expired = 30;
+    public const failed = 40;
+
     public function orders()
     {
         return $this->hasMany(\App\Models\Order::class);
