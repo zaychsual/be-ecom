@@ -29,6 +29,16 @@ class Category extends AdminModel
         return $this->hasMany(\App\Models\Product::class);
     }
 
+    public function getCreatedByAttribute($id)
+    {
+        return \App\Models\User::findOrFail($id)->name;
+    }
+
+    public function getUpdatedByAttribute($id)
+    {
+        return \App\Models\User::findOrFail($id)->name;
+    }
+
     /**
      * getImageAttribute
      *

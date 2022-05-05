@@ -105,10 +105,10 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $product = Product::findOrFail($id);
+        $ups = Product::findOrFail($id);
 
         $validator = Validator::make($request->all(), [
-            'title'         => 'required|unique:products,title,'.$product->id,
+            'title'         => 'required|unique:products,title,'.$ups->id,
             'category_id'   => 'required',
             'description'   => 'required',
             'weight'        => 'required',
@@ -125,14 +125,14 @@ class ProductController extends Controller
         if ($request->file('image')) {
 
             //remove old image
-            Storage::disk('local')->delete('public/products/'.basename($product->image));
+            Storage::disk('local')->delete('public/products/'.basename($ups->image));
 
             //upload new image
             $image = $request->file('image');
             $image->storeAs('public/products', $image->hashName());
 
             //update product with new image
-            $product->update([
+            $ups->update([
                 'image'         => $image->hashName(),
                 'title'         => $request->title,
                 'slug'          => Str::slug($request->title, '-'),
@@ -147,7 +147,7 @@ class ProductController extends Controller
         }
 
         //update product without image
-        $product->update([
+        $ups->update([
             'title'         => $request->title,
             'slug'          => Str::slug($request->title, '-'),
             'category_id'   => $request->category_id,
@@ -158,9 +158,9 @@ class ProductController extends Controller
             'discount'      => $request->discount
         ]);
 
-        if($product) {
+        if($ups) {
             //return success with Api Resource
-            return new ProductResource(true, 'Data Product Berhasil Diupdate!', $product);
+            return new ProductResource(true, 'Data Product Berhasil Diupdate!', $ups);
         }
 
         //return failed with Api Resource
@@ -175,11 +175,11 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $product = Product::findOrFail($id);
+        $dels = Product::findOrFail($id);
+        $dels->update(['image' => null]);
+        Storage::disk('local')->delete('public/products/'.basename($dels->image));
 
-        Storage::disk('local')->delete('public/products/'.basename($product->image));
-
-        if($product->delete()) {
+        if($dels->delete()) {
             //return success with Api Resource
             return new ProductResource(true, 'Data Product Berhasil Dihapus!', null);
         }

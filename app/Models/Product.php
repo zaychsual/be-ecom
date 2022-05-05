@@ -51,6 +51,16 @@ class Product extends AdminModel
         return asset('storage/products/' . $image);
     }
 
+    public function getCreatedByAttribute($id)
+    {
+        return \App\Models\User::findOrFail($id)->name;
+    }
+
+    public function getUpdatedByAttribute($id)
+    {
+        return \App\Models\User::findOrFail($id)->name;
+    }
+
     /**
      * getReviewsAvgRatingAttribute
      *
