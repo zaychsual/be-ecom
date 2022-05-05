@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Review extends Model
+class Review extends CustModel
 {
     use HasFactory, SoftDeletes;
 
@@ -23,4 +23,24 @@ class Review extends Model
         'customer_id',
         'deleted_at'
     ];
+
+    /**
+     * product
+     *
+     * @return void
+     */
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+    /**
+     * customer
+     *
+     * @return void
+     */
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
 }

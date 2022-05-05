@@ -34,6 +34,11 @@ class Customer extends Authenticatable
         return $this->hasMany(App\Models\Invoice::class);
     }
 
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
     /**
      * getCreatedAtAttribute
      *
@@ -50,7 +55,7 @@ class Customer extends Authenticatable
     public function getAvatarAttribute($avatar)
     {
         if ($avatar != null) :
-            return asset('storage/cust/'.$avatar);
+            return asset('storage/avatars/'.$avatar);
         else :
             return 'https://ui-avatars.com/api/?name=' . str_replace(' ', '+', $this->name) . '&background=4e73df&color=ffffff&size=100';
         endif;

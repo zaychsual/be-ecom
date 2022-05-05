@@ -40,6 +40,11 @@ class Product extends AdminModel
         return $this->belongsTo(\App\Models\Category::class, 'category_id');
     }
 
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
     /**
      * getImageAttribute
      *

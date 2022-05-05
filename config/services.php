@@ -32,6 +32,14 @@ return [
     ],
     'rajaongkir' => [
         'key' => env('RAJAONGKIR_API_KEY')
+    ],
+    //midtrans
+    'midtrans' => [
+        'serverKey'     => env('MIDTRANS_SERVERKEY'), // Midtrans server key
+        'clientKey'     => env('MIDTRANS_CLIENTKEY'), // Midtrans client key
+        'isProduction'  => env('MIDTRANS_IS_PRODUCTION', false), // Isi false jika versi development dan true versi production
+        'isSanitized'   => env('MIDTRANS_IS_SANITIZED', true),
+        'is3ds'         => env('MIDTRANS_IS_3DS', true),                
     ]
 
 ];
