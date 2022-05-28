@@ -44,6 +44,15 @@ class AuthController extends Controller
         ]);
     }
 
+    public function getUser()
+    {
+        //response data "user" yang sedang login
+        return response()->json([
+            'success' => true,
+            'user'    => auth()->guard('api_cust')->user()
+        ], 200);
+    }
+
     /**
      * login
      *

@@ -20,6 +20,7 @@ class CheckOutController extends Controller
      */
     public function __construct()
     {
+        // $this->middleware('auth:api_customer');
         // Set midtrans configuration
         \Midtrans\Config::$serverKey    = config('services.midtrans.serverKey');
         \Midtrans\Config::$isProduction = config('services.midtrans.isProduction');
@@ -72,14 +73,14 @@ class CheckOutController extends Controller
 
                 //insert product ke table order
                 $invoice->orders()->create([
-                    'invoice_id'    => $invoice->id,   
+                    'invoice_id'    => $invoice->id,
                     'product_id'    => $cart->product_id,
                     'qty'           => $cart->qty,
                     'price'         => $cart->price,
-                ]);   
+                ]);
 
             }
-            
+
             //remove cart by customer
             Cart::with('product')
                 ->where('customer_id', auth()->guard('api_cust')->user()->id)
@@ -95,7 +96,7 @@ class CheckOutController extends Controller
                     'first_name'       => $invoice->name,
                     'email'            => auth()->guard('api_cust')->user()->email,
                     'phone'            => $invoice->phone,
-                    'shipping_address' => $invoice->address  
+                    'shipping_address' => $invoice->address
                 ]
             ];
 

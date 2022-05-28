@@ -78,6 +78,14 @@ class AuthController extends Controller
         ]);
     }
 
+    public function getUser()
+    {
+        return response()->json([
+            'success' => true,
+            'user'    => auth()->guard('api_admin')->user()
+        ], 200);
+    }
+
     public function refreshToken(OClient $oClient, $email, $password) {
         $oClient = OClient::where('password_client', 1)->first();
         $http = new Client;
